@@ -20,6 +20,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavbarFile from './components/NavbarFile';
 import AboutPage from './components/About'; // Import your AboutPage component
 import { CartProvider } from './components/CartContext';
+import Home from './components/Home';
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
         <Router>
           <NavbarFile />
           <Routes>
-            {/* <Route path="/" exact component={HomePage} /> */}
+          <Route path="/" element={<Home />} />
             {/* <Route path="/store" component={HomePage} /> */}
             <Route path='/about' element={<AboutPage />} /> {/* Set up the About route */}
           </Routes>
