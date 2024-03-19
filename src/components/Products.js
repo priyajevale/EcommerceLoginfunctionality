@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{useContext} from 'react'
+import { CartContext } from './CartContext';
 import { Container,Row,Col,Button } from 'react-bootstrap';
 const productsArr = [
 
@@ -46,31 +47,35 @@ const productsArr = [
     
 const Products = () => {
     
+    const { addToCart } = useContext(CartContext);
+
+    const handleAddToCart = (product) => {
+        console.log('Adding to cart:', product); // Check if the correct product is being added
+        addToCart(product);
+    };
+
     return (
         <div>
-            <Container >
+            <Container>
                 <div className="row">
                     <div className="col-sm">
-          {productsArr.map(product => (
-            <div key={product.title}>
-                <h3>{product.title}</h3>
-                <div class="row">
-                    
-             <img src={product.imageUrl} alt={product.title}  height="250px" width="25px"/>
-              </div>
-            <div class="row">
-              <div class='col'><p>${product.price}</p></div>
-              <div class='col'> <Button variant="info">Add to Cart</Button></div>
-              </div>
-
-            </div>
-          ))}
-          </div>
-          </div>
-          </Container>
-         
+                        {productsArr.map((product, index) => (
+                            <div key={index}>
+                                <h3>{product.title}</h3>
+                                <div className="row">
+                                    <img src={product.imageUrl} alt={product.title} height="250px" width="25px" />
+                                </div>
+                                <div className="row">
+                                    <div className='col'><p>${product.price}</p></div>
+                                    <div className='col'><Button variant="info" onClick={() => handleAddToCart(product)}>Add to Cart</Button></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </Container>
         </div>
-      );
-    }
+    );
+};
 
 export default Products;
