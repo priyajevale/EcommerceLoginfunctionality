@@ -1,41 +1,36 @@
-// import React from 'react';
-// import './App.css';
-// // import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import NavbarFile from './components/NavbarFile';
-// import { CartProvider } from './components/CartContext';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <CartProvider>
-//         <NavbarFile/>
-//       </CartProvider>
-//     </div>
-//   );
-// }
-
-// export default App;
+import  {  Switch,Route,Redirect  } from 'react-router-dom';
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NavbarFile from './components/NavbarFile';
-import AboutPage from './components/About'; // Import your AboutPage component
-import { CartProvider } from './components/CartContext';
-import Home from './components/Home';
+ import { useContext } from 'react';
+import Layout from './components/Layout/Layout';
+import UserProfile from './components/Profile/UserProfile';
+import AuthPage from './components/Pages/AuthPage';
+import HomePage from './components/Pages/HomePage';
+import { AuthContext } from './components/Store/Auth-Context';
 
 function App() {
+  const authCtx=useContext(AuthContext);
   return (
-    <div className="App">
-      <CartProvider>
-        <Router>
-          <NavbarFile />
-          <Routes>
-          <Route path="/" element={<Home />} />
-            {/* <Route path="/store" component={HomePage} /> */}
-            <Route path='/about' element={<AboutPage />} /> {/* Set up the About route */}
-          </Routes>
-        </Router>
-      </CartProvider>
-    </div>
+    <Layout>
+    <Switch>
+        <Route path='/' exact>
+          <HomePage />
+        </Route>
+         {!authCtx.isLoggedIn && ( 
+        <Route path='/auth'>
+          <AuthPage />
+        </Route>
+         )} 
+        
+        <Route path='/profile'> 
+        {authCtx.isLoggedIn && <UserProfile/>}
+        {!authCtx.isLoggedIn && <Redirect to='/auth'/>}
+        </Route>
+         
+        <Route path='*'>
+<Redirect to='/' />
+        </Route> 
+        </Switch>
+    </Layout>
   );
 }
 
